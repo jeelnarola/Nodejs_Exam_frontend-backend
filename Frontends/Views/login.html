@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row justify-content">
+                <nav>
+                    <ul class="row">
+                        <li><a href="../Views/product.html">product</a></li>
+                        <li><a href="../Views/signup.html">Signup</a></li>
+                        <li><a href="../Views/login.html">Login</a></li>
+                        <li><a href="../Views/productadd.html">add</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+            <div class="box">
+                <div class="row">
+                    <div class="img-box">
+                        <img src="../Image/Wavy_Tech-28_Single-10.jpg" alt="">
+                    </div>
+                    <div class="signup-form">
+                        <form id="login">
+                            <input type="text" name="email" placeholder="email" id="email">
+                            <input type="text" name="password" placeholder="password" id="password"><br>
+                            <button type="submit" value="submit">submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    document.getElementById("login").addEventListener("submit",(e)=>{
+        e.preventDefault()
+        let obj={
+            email:document.getElementById("email").value,
+            password:document.getElementById("password").value,
+        }
+       fetch("http://localhost:8090/login",{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify(obj)
+       }).then((res)=>res.json())
+       .then((data)=>{
+        document.cookie=`token=${data.token};path=/`;
+       })
+    })
+</script>
+</html>

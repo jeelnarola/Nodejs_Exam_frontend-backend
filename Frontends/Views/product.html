@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row justify-content">
+                <nav>
+                    <ul class="row">
+                        <li><a href="../Views/product.html">product</a></li>
+                        <li><a href="../Views/signup.html">Signup</a></li>
+                        <li><a href="../Views/login.html">Login</a></li>
+                        <li><a href="../Views/productadd.html">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="conatiner">
+            <div id="product"></div>
+        </div>
+    </section>
+    
+</body>
+<script>
+
+    const display=(data)=>{
+        data.map((ele)=>{
+            console.log(ele);
+            let img=document.createElement("img")
+            img.src=ele.img
+            let title=document.createElement("h2")
+            title.innerHTML=ele.title
+            let price=document.createElement("h4")
+            price.innerHTML=ele.price
+            let dec=document.createElement("p")
+            dec.innerHTML=ele.des
+
+            let buy=document.createElement("button")
+            buy.innerHTML=`Buy Now`
+    
+            
+           
+            let div=document.createElement("div")
+            div.setAttribute("class","Product-div")
+            div.append(img,title,price,dec,buy)
+            document.getElementById("product").append(div)
+
+        })
+    }
+
+   const get=()=>{
+    fetch("http://localhost:8090/add")
+    .then((res)=>res.json())
+    .then((data)=>{
+        display(data)
+    })
+   }
+   get()
+</script>
+</html>
