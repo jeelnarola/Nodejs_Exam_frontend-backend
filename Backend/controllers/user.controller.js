@@ -1,4 +1,3 @@
-const Razorpay = require("razorpay")
 const Rezorpay=require("razorpay")
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
