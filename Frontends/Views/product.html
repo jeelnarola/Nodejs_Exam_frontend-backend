@@ -13,9 +13,10 @@
                 <nav>
                     <ul class="row">
                         <li><a href="../Views/product.html">product</a></li>
-                        <li><a href="../Views/signup.html">Signup</a></li>
-                        <li><a href="../Views/login.html">Login</a></li>
-                        <li><a href="../Views/productadd.html">Login</a></li>
+                        <li class="signup"><a href="../Views/signup.html">Signup</a></li>
+                        <li class="login"><a href="../Views/login.html">Login</a></li>
+                        <li class="logout" style="display: none;"><a href="">Logout</a></li>
+                        <li><a href="../Views/productadd.html">add</a></li>
                     </ul>
                 </nav>
             </div>
@@ -28,7 +29,23 @@
     </section>
     
 </body>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    const pay=async(amount)=>{
+        let res=await fetch("http://localhost:8090/pay",{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({amount:amount})
+        })
+        let oder=await res.json()
+        console.log(oder);
+        let option={
+            key:"rzp_test_QKpP9x2uZ7C2u1",
+            amount:oder.amount,
+        }
+        let razorpay=new Razorpay(option)
+        razorpay.open()
+    }
 
     const display=(data)=>{
         data.map((ele)=>{
@@ -44,6 +61,10 @@
 
             let buy=document.createElement("button")
             buy.innerHTML=`Buy Now`
+
+            buy.addEventListener("click",()=>{
+                pay(ele.price)
+            })
     
             
            
@@ -63,5 +84,23 @@
     })
    }
    get()
+   let cookie= document.cookie.split(";")[0].split("=")[0];
+    console.log(cookie)
+    let userName= document.cookie.split(";")[1].split("=")[0];
+    console.log(userName)
+    let name =document.cookie.split(";")[1].split("=")[1];
+
+
+
+    if(document.cookie){
+        document.querySelector(".signup").innerHTML=name
+        document.querySelector(".logout").style.display="block"
+        document.querySelector(".login").style.display="none"
+    }
+    const deletC=(name)=>{
+        document.cookie=name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    }
+    document.querySelector(".logout").addEventListener("click",()=>deletC(cookie))
+    document.querySelector(".logout").addEventListener("click",()=>deletC(userName))
 </script>
 </html>
